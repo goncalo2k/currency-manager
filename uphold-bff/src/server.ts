@@ -11,10 +11,10 @@ const FRONTEND_BASE_URL = process.env.FRONTEND_BASE_URL;
 
 const app = express();
 const whitelist = new Set([
-  'http://localhost:5173',
-  'https://localhost:5173', 
-  'http://127.0.0.1:5173',
-  'https://127.0.0.1:5173',
+  "http://localhost:5173",
+  "https://localhost:5173",
+  "http://127.0.0.1:5173",
+  "https://127.0.0.1:5173",
 ]);
 
 app.use(
@@ -31,24 +31,50 @@ app.use(
 app.use(express.json());
 
 const upholdService = new UpholdConnectorService();
-app.get(
-  "/api/authorize-url/:state",
-  async (req, res) => {
-    const { state } = req.params;
-    console.log(res.json);
-    let authUrl = upholdService.getAuthorizeUrl(state);
-    res.json({ message: ResponseStatusMessage.OK, result: authUrl });
-  }
-);
+app.get("/api/authorize-url/:state", async (req, res) => {
+  const { state } = req.params;
+  console.log(res.json);
+  let authUrl = upholdService.getAuthorizeUrl(state);
+  res.json({ message: ResponseStatusMessage.OK, result: authUrl });
+});
 
 app.get("/api/auth-callback/:code", async (req, res) => {
   try {
     const { code } = req.params;
-    console.log('code',);
+    console.log("code");
     const response = await upholdService.completeLogin(code);
     res.json(response);
   } catch (e: any) {
     res.status(500).json({ error: e.message });
+  }
+});
+
+app.get("/api/rates", async (req, res) => {
+  try {
+    res.json(await  upholdService.getRates());
+  } catch (error) {
+    console.log(error);
+  }
+});
+
+app.get("/api/countries", async (req, res) => {
+  try {
+    const ans = await upholdService.getCountries();
+    res.json(ans);
+  } catch (error) {
+    console.log(error);
+    res.json(error).status(500);
+  }
+});
+
+
+app.get("/api/sdk/countries", async (req, res) => {
+  try {
+    const ans = await upholdService.getCountriesSdk();
+    res.json(ans);
+  } catch (error) {
+    console.log(error);
+    res.json(error).status(500);
   }
 });
 
