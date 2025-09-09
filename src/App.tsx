@@ -1,35 +1,66 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import { ConfigService } from './services/config-service'
+import { UpholdConnectorService } from './services/uphold-connector.service'
+
+const cfgService = new ConfigService();
+const upholdService = new UpholdConnectorService(cfgService);
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [user, setUser] = useState<any>(null);
+  const [currencies, setCurrencies] = useState<string[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  // Finish OAuth if we came back with ?code=...
+  useEffect(() => {
+    var url = new URL(window.location.href);
+    var code = url.searchParams.get('code');
+    if (code) {
+      setLoading(true);
+      upholdService.completeLogin(code)
+        .then(setUser)
+        .finally(() => {
+          setLoading(false);
+          // clean the URL
+          window.history.replaceState({}, document.title, '/');
+        });
+    }
+  }, []);
+
+  function signIn() {
+    window.location.href = upholdService.getAuthorizeUrl();
+  }
+
+  async function loadCurrencies() {
+    setLoading(true);
+    try {
+      var list = await upholdService.getCurrenciesFromTicker();
+      setCurrencies(list);
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <main style={{ padding: 24 }}>
+      <h1>upholdService demo</h1>
+      {!user ? (
+        <button onClick={signIn}>Sign in with upholdService</button>
+      ) : (
+        <>
+          <p>Hi {user.firstName || user.username}</p>
+          <button onClick={loadCurrencies} disabled={loading}>
+            {loading ? 'Loading…' : 'Get currencies'}
+          </button>
+          <ul>
+            {currencies.map(c => <li key={c}>{c}</li>)}
+          </ul>
+        </>
+      )}
+    </main>
+  );
 }
 
 export default App
