@@ -12,7 +12,7 @@ const FRONTEND_BASE_URL = process.env.FRONTEND_BASE_URL;
 const app = express();
 const whitelist = new Set([
   'http://localhost:5173',
-  'https://localhost:5173',
+  'https://localhost:5173', 
   'http://127.0.0.1:5173',
   'https://127.0.0.1:5173',
 ]);
@@ -44,7 +44,7 @@ app.get(
 app.get("/api/auth-callback/:code", async (req, res) => {
   try {
     const { code } = req.params;
-    console.log('code', code);
+    console.log('code',);
     const response = await upholdService.completeLogin(code);
     res.json(response);
   } catch (e: any) {

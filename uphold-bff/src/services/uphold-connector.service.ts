@@ -26,9 +26,6 @@ export class UpholdConnectorService {
 
   async completeLogin(code: string): Promise<any> {
     console.log('code',code);
-    return await this.sdk.authorize(code).then(() => this.sdk.getMe())
-    .then(user => {
-      console.log(user);
-    });;
+    return await this.sdk.authorize(code);
   }
 }

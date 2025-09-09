@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-import { ConfigService } from './services/config/config-service'
-import { UpholdConnectorService } from './services/uphold/uphold-connector.service'
-import { httpService } from './services/http/http-service'
-
+import { useEffect, useState } from 'react';
+import reactLogo from './assets/react.svg';
+import viteLogo from '/vite.svg';
+import './App.css';
+import './index.css';
+import { UpholdConnectorService } from './services/uphold/uphold-connector.service';
+import { httpService } from './services/http/http-service';
 
 const upholdService = new UpholdConnectorService();
 
@@ -16,11 +15,15 @@ function App() {
 
   // Finish OAuth if we came back with ?code=...
   useEffect(() => {
-    var url = new URL(window.location.href);
-    var code = url.searchParams.get('code');
-    if (code) {
+    let url = new URL(window.location.href);
+    let code = url.searchParams.get('code');
+    let state = url.searchParams.get('state');
+    console.log('paramState', state);
+    console.log('sessionStorageState', sessionStorage.getItem('state'));
+    if (code && state === sessionStorage.getItem('state')) {
       setLoading(true);
-      upholdService.completeLogin(code)
+      upholdService
+        .completeLogin(code)
         .then(setUser)
         .finally(() => {
           setLoading(false);
@@ -36,7 +39,7 @@ function App() {
 
   async function getCurrencies() {
     //call
-    let currencies = await httpService.get('https://api-sandbox.uphold.com/v0/assets');
+    let currencies = await upholdService.getCurrencies();
     console.log(currencies);
     //setCurrencies();
   }
@@ -48,7 +51,7 @@ function App() {
     }
   }
 
-  return (
+/*   return (
     <main style={{ padding: 24 }}>
       <h1>upholdService demo</h1>
       {!user ? (
@@ -60,13 +63,49 @@ function App() {
             {loading ? 'Loading…' : 'Get currencies'}
           </button>
           <ul>
-            {currencies.map(c => <li key={c}>{c}</li>)}
+            {currencies.map((c) => (
+              <li key={c}>{c}</li>
+            ))}
           </ul>
         </>
       )}
-       <button onClick={getCurrencies}>Get currencies</button>
+      <button onClick={getCurrencies}>Get currencies</button>
     </main>
+  ); */
+  return (
+    <>
+      <div>
+        <a href="https://vitejs.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        {!user ? (
+          <button onClick={signIn}>Sign in with upholdService</button>
+        ) : (
+          <>
+            <p>Hi {user.firstName || user.username}</p>
+            <button onClick={loadCurrencies} disabled={loading}>
+              {loading ? 'Loading…' : 'Get currencies'}
+            </button>
+            <ul>
+              {currencies.map((c) => (
+                <li key={c}>{c}</li>
+              ))}
+            </ul>
+          </>
+        )}
+      </div>
+      <div className="card">
+        <button onClick={getCurrencies}>Get currencies</button>
+      </div>
+      <p className="read-the-docs">Click on the Vite and React logos to learn more</p>
+    </>
   );
 }
 
-export default App
+export default App;
