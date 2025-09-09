@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
-import { ConfigService } from './services/config-service'
-import { UpholdConnectorService } from './services/uphold-connector.service'
+import { ConfigService } from './services/config/config-service'
+import { UpholdConnectorService } from './services/uphold/uphold-connector.service'
+import { httpService } from './services/http/http-service'
 
-const cfgService = new ConfigService();
-const upholdService = new UpholdConnectorService(cfgService);
+
+const upholdService = new UpholdConnectorService();
 
 function App() {
   const [user, setUser] = useState<any>(null);
@@ -29,15 +30,19 @@ function App() {
     }
   }, []);
 
-  function signIn() {
-    window.location.href = upholdService.getAuthorizeUrl();
+  async function signIn() {
+    window.location.href = await upholdService.getAuthorizeUrl();
   }
 
+  async function getCurrencies() {
+    //call
+    let currencies = await httpService.get('https://api-sandbox.uphold.com/v0/assets');
+    console.log(currencies);
+    //setCurrencies();
+  }
   async function loadCurrencies() {
     setLoading(true);
     try {
-      var list = await upholdService.getCurrenciesFromTicker();
-      setCurrencies(list);
     } finally {
       setLoading(false);
     }
@@ -59,6 +64,7 @@ function App() {
           </ul>
         </>
       )}
+       <button onClick={getCurrencies}>Get currencies</button>
     </main>
   );
 }
