@@ -1,4 +1,3 @@
-// src/services/http.service.ts
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
 
 export class HttpService {
@@ -7,16 +6,14 @@ export class HttpService {
   constructor(baseURL: string) {
     this.client = axios.create({
       baseURL,
-      timeout: 10000, // 10s timeout
+      timeout: 10000,
       headers: {
         "Content-Type": "application/json"
       }
     });
 
-    // Interceptors for auth, logging, etc.
     this.client.interceptors.request.use(
       (config) => {
-        // Example: attach auth token if stored
         const token = localStorage.getItem("auth_token");
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
@@ -29,7 +26,6 @@ export class HttpService {
     this.client.interceptors.response.use(
       (response: AxiosResponse) => response,
       (error) => {
-        // Central error handling (401, 500, etc.)
         if (error.response?.status === 401) {
           console.warn("Unauthorized — maybe redirect to login");
         }
@@ -55,7 +51,6 @@ export class HttpService {
   }
 }
 
-// Export a singleton with your backend’s base URL
 export const httpService = new HttpService(
-  import.meta.env.VITE_API_URL || "http://localhost:4000"
+  import.meta.env.VITE_API_URL || "http://localhost:7000"
 );
