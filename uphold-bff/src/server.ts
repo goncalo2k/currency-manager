@@ -43,7 +43,7 @@ app.get("/api/auth-callback/:code", async (req, res) => {
     const { code } = req.params;
     console.log("code");
     const response = await upholdService.completeLogin(code);
-    res.json(response);
+    res.json({message: ResponseStatusMessage.OK, result: response});
   } catch (e: any) {
     res.status(500).json({ error: e.message });
   }
@@ -51,7 +51,8 @@ app.get("/api/auth-callback/:code", async (req, res) => {
 
 app.get("/api/rates", async (req, res) => {
   try {
-    res.json(await  upholdService.getRates());
+    const ans = await  upholdService.getRates();
+    res.json({ message: ResponseStatusMessage.OK, result: ans });
   } catch (error) {
     console.log(error);
   }
@@ -60,7 +61,7 @@ app.get("/api/rates", async (req, res) => {
 app.get("/api/countries", async (req, res) => {
   try {
     const ans = await upholdService.getCountries();
-    res.json(ans);
+    res.json({ message: ResponseStatusMessage.OK, result: ans });
   } catch (error) {
     console.log(error);
     res.json(error).status(500);
@@ -68,10 +69,11 @@ app.get("/api/countries", async (req, res) => {
 });
 
 
-app.get("/api/sdk/rates", async (req, res) => {
+app.get("/api/sdk/rates/:currency", async (req, res) => {
+  const { currency } = req.params;
   try {
-    const ans = await upholdService.getRatesSdk();
-    res.json(ans);
+    const ans = await upholdService.getRatesSdk(currency);
+    res.json({ message: ResponseStatusMessage.OK, result: ans });
   } catch (error) {
     console.log(error);
     res.json(error).status(500);

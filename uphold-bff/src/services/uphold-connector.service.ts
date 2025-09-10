@@ -69,8 +69,8 @@ export class UpholdConnectorService {
     return resp.data;
   }
 
-  async getRatesSdk(): Promise<string> {
-    const resp = this.sdk.getTicker();
+  async getRatesSdk(currency: string): Promise<string> {
+    const resp = this.sdk.getTicker(currency);
     return resp;
   }
 }

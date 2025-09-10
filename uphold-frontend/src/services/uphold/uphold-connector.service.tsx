@@ -61,16 +61,20 @@ export class UpholdConnectorService {
 
       const resp = await this.httpService.post('https://api-sandbox.uphold.com/oauth2/token', form); */
 
-      const resp = await this.httpService.get<APIResponse<string>>(`/api/auth-callback/${code}`);
+      const resp = await this.httpService.get<APIResponse<any>>(`/api/auth-callback/${code}`);
       console.log('[Uphold] authorize URL ->', resp);
-      return resp as string;
+      const token = resp.result.access_token as string;
+      sessionStorage.setItem('token', token);
+      this.sdk.setToken(token);
+      return token
     } catch (error) {
       console.error('Error: ', error);
       throw error;
     }
   }
 
-  getCurrencies(): any {
-    return this.sdk.getTicker();
+  async getCurrencies(curreny: string = 'USD'): Promise<APIResponse<any>> {
+    const resp = await this.httpService.get<APIResponse<any>>(`/api/sdk/rates/${curreny}`);
+    return resp.result;
   }
 }
