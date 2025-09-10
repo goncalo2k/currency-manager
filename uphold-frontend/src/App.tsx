@@ -12,10 +12,8 @@ const upholdService = new UpholdConnectorService();
 
 function App() {
   const [user, setUser] = useState<any>(null);
-
   const [loading, setLoading] = useState(false);
 
-  // Finish OAuth if we came back with ?code=...
   useEffect(() => {
     let url = new URL(window.location.href);
     let code = url.searchParams.get('code');
@@ -24,34 +22,17 @@ function App() {
     console.log('sessionStorageState', sessionStorage.getItem('state'));
     if (code && state === sessionStorage.getItem('state')) {
       setLoading(true);
-      upholdService
-        .completeLogin(code)
-        .then(setUser)
-        .finally(() => {
-          setLoading(false);
-          // clean the URL
-          window.history.replaceState({}, document.title, '/');
-        });
+      upholdService.completeLogin(code).then(setUser);
+
+      if (user) {
+        setLoading(false);
+        window.history.replaceState({}, document.title, '/');
+      }
     }
   }, []);
 
   async function signIn() {
     window.location.href = await upholdService.getAuthorizeUrl();
-  }
-
-  async function getCurrencies(): Promise<any> {
-    //call
-    let currencies = await upholdService.getCurrencies();
-    console.log(currencies);
-    setCurrencies(currencies.result);
-    return currencies;
-  }
-  async function loadCurrencies() {
-    setLoading(true);
-    try {
-    } finally {
-      setLoading(false);
-    }
   }
 
   return (

@@ -25,7 +25,7 @@ export const CurrencyDropdownComponent: React.FC<CurrencyDropdownProps> = ({
       onChange={(e) => handleChange(e.value)}
       options={currencies}
       optionLabel="name"
-      placeholder="Select a currency"
+      placeholder="USD"
     />
   );
 };

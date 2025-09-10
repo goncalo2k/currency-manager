@@ -4,6 +4,6 @@ export enum ResponseStatusMessage {
   }
   export interface APIResponse<T> {
     message: ResponseStatusMessage;
-    result?: T;
+    result: T;
   }
   

@@ -1,69 +1,96 @@
+:root {
+  --radius: 12px;
+  --control-h: clamp(56px, 7vw, 72px);
+  --font-xl: clamp(24px, 6vw, 42px);
+  --dropdown-w: clamp(120px, 26vw, 200px);
+  --ring: 0 0 0 4px rgba(59,130,246,.15);
+  --border: #e5e7eb;
+  --text: #0f172a;
+  --bg: #ffffff;
+  --bg-muted: #f9fafb;
+}
+
 .container {
-  max-width: 600px;
-  margin: 48px auto;
+  width: 100%;
+  max-width: 720px;
+  padding: 0 16px;
+  margin: 40px auto;
 }
 
 .selector-container {
   display: flex;
-  align-items: stretch;
   width: 100%;
+  align-items: stretch;
+  border-radius: var(--radius);
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--bg);
+}
+
+.selector-container * { box-sizing: border-box; }
+
+.selector-container:focus-within {
+  border-color: #93c5fd;
+  box-shadow: var(--ring);
+}
+
+.selector-container:has(.p-dropdown.p-focus) {
+  border-color: #93c5fd;
+  box-shadow: var(--ring);
 }
 
 .amount-input {
   flex: 1 1 auto;
-  height: 64px;
-  border: 1px solid #e5e7eb;
-  border-right: 0;
-  border-radius: 12px 0 0 12px;
+  min-width: 0;
+  height: var(--control-h);
+  border: none;
   padding: 0 16px;
-  font-size: 36px;
-  line-height: 64px;
-  background: #f9fafb;
-  color: #0f172a;
+  font-size: var(--font-xl);
+  background: var(--bg-muted);
+  color: var(--text);
   outline: none;
 }
 
-.amount-input::placeholder {
-  color: #94a3b8;
-}
-
-.amount-input:focus {
-  border-color: #93c5fd;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
-  background: #ffffff;
-}
+.amount-input::placeholder { color: #94a3b8; }
 
 .currency-dropdown.p-dropdown {
-  width: 160px;
-  height: 64px;
-  border: 1px solid #e5e7eb;
-  border-left: 0;
-  border-radius: 0 12px 12px 0;
+  flex: 0 0 var(--dropdown-w);
+  min-width: 0;
+  height: var(--control-h);
+  border: none;
+  border-left: 1px solid var(--border);
+  background: var(--bg);
   display: flex;
   align-items: center;
-  background: #ffffff;
 }
 
-.currency-dropdown {
-  box-sizing: unset !important;
+.currency-dropdown .p-dropdown-label,
+.currency-dropdown .p-inputtext,
+.currency-dropdown .p-dropdown-trigger {
+  height: 100%;
 }
 
 .currency-dropdown .p-dropdown-label {
-  line-height: 64px;
+  display: flex;
+  align-items: center;
   padding: 0 12px;
+  line-height: normal;
   font-weight: 600;
-  color: #0f172a;
+  color: var(--text);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
-.currency-dropdown.p-focus {
-  border-color: #93c5fd;
-  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+.currency-dropdown .p-dropdown-trigger {
+  width: clamp(36px, 6vw, 48px);
+  justify-content: center;
 }
 
 .p-dropdown-panel {
-  border-radius: 12px;
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
-  border: 1px solid #e5e7eb;
+  border-radius: var(--radius);
+  box-shadow: 0 12px 28px rgba(0,0,0,.12);
+  border: 1px solid var(--border);
   overflow: hidden;
 }
 
@@ -76,26 +103,38 @@
   background: #f3f4f6;
 }
 
-@media (prefers-color-scheme: dark) {
-  .amount-input {
-    background: #111827;
-    color: #e5e7eb;
-    border-color: #374151;
+@media (max-width: 520px) {
+  .selector-container {
+    flex-direction: column;
+    border-radius: var(--radius);
+    overflow: visible;
   }
-  .amount-input::placeholder {
-    color: #6b7280;
+  .amount-input {
+    border-bottom: 1px solid var(--border);
+    border-right: none;
+    border-radius: var(--radius) var(--radius) 0 0;
+    width: 100%;
   }
   .currency-dropdown.p-dropdown {
-    background: #111827;
-    border-color: #374151;
+    flex: 0 0 auto;
+    width: 100%;
+    border-top: none;
+    border-left: 1px solid var(--border);
+    border-radius: 0 0 var(--radius) var(--radius);
   }
-  .currency-dropdown .p-dropdown-label {
-    color: #e5e7eb;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --border: #374151;
+    --text: #e5e7eb;
+    --bg: #111827;
+    --bg-muted: #0b1220;
   }
   .p-dropdown-panel {
-    background: #111827;
-    border-color: #374151;
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
+    background: var(--bg);
+    border-color: var(--border);
+    box-shadow: 0 12px 28px rgba(0,0,0,.5);
   }
   .p-dropdown-items .p-dropdown-item:not(.p-highlight):hover {
     background: #1f2937;
