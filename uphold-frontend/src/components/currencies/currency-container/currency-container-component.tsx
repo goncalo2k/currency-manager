@@ -1,3 +1,4 @@
+import { Currency } from '../currency-utils';
 import { IconComponent } from '../icon/icon-component';
 import './currency-container-component.css';
 
@@ -5,17 +6,19 @@ interface CurrencyListContainerComponentProps {
   currencyMap: Map<string, number>;
   flagMap: Map<string, string>;
   value: number;
+  selectedCurrency?: Currency;
 }
 
 export const CurrencyListContainerComponent: React.FC<CurrencyListContainerComponentProps> = ({
   currencyMap,
   flagMap,
   value,
+  selectedCurrency,
 }) => {
   return (
     <div className="entry-list-container">
       {Array.from(currencyMap.entries())
-        .filter(([code, rate]) => code !== 'USD')
+        .filter(([code]) => code !== (selectedCurrency && selectedCurrency.currency || 'USD'))
         .map(([code, rate]) => {
           const amount = value * rate;
           const flagUrl = flagMap.get(code);

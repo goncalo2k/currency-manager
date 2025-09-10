@@ -1,4 +1,4 @@
-import { useEffect, useState, ChangeEvent, useRef } from 'react';
+import { useEffect, useState, ChangeEvent, useRef, useMemo } from 'react';
 import { CurrencyDropdownComponent } from '../currency-dropdown/currency-dropdown-component';
 import { UpholdConnectorService } from '@/services/uphold/uphold-connector.service';
 import {
@@ -75,13 +75,14 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
     };
   }, [selectedCurrency, upholdService]);
 
-  useEffect(() => {
-    console.log('currencies updated', currencies);
-  }, [currencies]);
-
   const flagMap = exportAvailableFlags();
   const { options, currencyMap }: { options: DropdownOption[]; currencyMap: Map<string, number> } =
     populateDropdownOptions(flagMap, currencies);
+
+  const filteredOptions = useMemo(
+    () => options.filter(o => o.value !== selectedCurrency?.currency),
+    [options, selectedCurrency]
+  );
 
   return (
     <div className="container">
@@ -96,7 +97,7 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
           />
           <CurrencyDropdownComponent
             className="currency-dropdown"
-            options={options}
+            options={filteredOptions}
             currencies={currencies}
             selectedCurrency={selectedCurrency}
             setSelectedCurrency={setSelectedCurrency}
@@ -105,7 +106,12 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
         </div>
       )}
       {!loading && (
-        <CurrencyListContainerComponent currencyMap={currencyMap} flagMap={flagMap} value={value} />
+        <CurrencyListContainerComponent
+          currencyMap={currencyMap}
+          flagMap={flagMap}
+          value={value}
+          selectedCurrency={selectedCurrency}
+        />
       )}
       {loading && <div className="spinner">Loading…</div>}
       {ratesError && <div className="error">Failed to load currencies.</div>}
