@@ -68,7 +68,8 @@ export class UpholdConnectorService {
     const resp = await http.get("/v0/countries");
     return resp.data;
   }
-  async getCountriesSdk(): Promise<string> {
+
+  async getRatesSdk(): Promise<string> {
     const resp = this.sdk.getTicker();
     return resp;
   }

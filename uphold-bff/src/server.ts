@@ -68,9 +68,9 @@ app.get("/api/countries", async (req, res) => {
 });
 
 
-app.get("/api/sdk/countries", async (req, res) => {
+app.get("/api/sdk/rates", async (req, res) => {
   try {
-    const ans = await upholdService.getCountriesSdk();
+    const ans = await upholdService.getRatesSdk();
     res.json(ans);
   } catch (error) {
     console.log(error);
