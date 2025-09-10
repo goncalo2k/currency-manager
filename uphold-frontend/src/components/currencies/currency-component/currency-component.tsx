@@ -84,6 +84,7 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
     [options, selectedCurrency]
   );
 
+
   return (
     <div className="container">
       {!loading && (
@@ -97,7 +98,7 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
           />
           <CurrencyDropdownComponent
             className="currency-dropdown"
-            options={filteredOptions}
+            options={options}
             currencies={currencies}
             selectedCurrency={selectedCurrency}
             setSelectedCurrency={setSelectedCurrency}
