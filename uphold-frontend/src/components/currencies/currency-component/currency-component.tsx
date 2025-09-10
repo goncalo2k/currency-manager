@@ -1,8 +1,14 @@
 import { useEffect, useState, ChangeEvent, useRef } from 'react';
 import { CurrencyDropdownComponent } from '../currency-dropdown/currency-dropdown-component';
 import { UpholdConnectorService } from '@/services/uphold/uphold-connector.service';
-import { Currency } from '../currency-utils';
+import {
+  Currency,
+  DropdownOption,
+  exportAvailableFlags,
+  populateDropdownOptions,
+} from '../currency-utils';
 import './currency-component.css';
+import { CurrencyListContainerComponent } from '../currency-container/currency-container-component';
 
 interface CurrencyComponentProps {
   upholdService: UpholdConnectorService;
@@ -33,14 +39,15 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
     return () => {
       mounted.current = false;
     };
-    // If upholdService is stable (same instance), [] is fine.
-    // If parent recreates it each render, use [upholdService].
   }, [upholdService]);
 
   useEffect(() => {
-    // if you want to see updates
     console.log('currencies updated', currencies);
   }, [currencies]);
+
+  const flagMap = exportAvailableFlags();
+  const { options, currencyMap }: { options: DropdownOption[]; currencyMap: Map<string, number> } =
+    populateDropdownOptions(flagMap, currencies);
 
   return (
     <div className="container">
@@ -50,15 +57,19 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
           type="number"
           value={value}
           onChange={onValueChange}
+          onWheel={(e) => e.currentTarget.blur()}
         />
         <CurrencyDropdownComponent
           className="currency-dropdown"
+          options={options}
           currencies={currencies}
           selectedCurrency={selectedCurrency}
           setSelectedCurrency={setSelectedCurrency}
+          flagMap={flagMap}
         />
         {ratesError && <div className="error">Failed to load currencies.</div>}
       </div>
+      <CurrencyListContainerComponent currencyMap={currencyMap} flagMap={flagMap} value={value} />
     </div>
   );
 };

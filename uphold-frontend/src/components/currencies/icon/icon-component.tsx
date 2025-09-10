@@ -6,6 +6,6 @@ interface IconProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   size?: number;
 }
 
-export const IconComponent: React.FC<IconProps> = ({ src, alt = '', size = 16, ...rest }) => {
+export const IconComponent: React.FC<IconProps> = ({ src, alt = '', size = 24, ...rest }) => {
   return <img src={src} alt={alt} width={size} height={size} {...rest} />;
 };

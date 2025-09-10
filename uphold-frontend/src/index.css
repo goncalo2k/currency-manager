@@ -4,11 +4,10 @@
     -webkit-appearance: none;
     margin: 0;
   }
-
-  /* Firefox */
   input[type='number'] {
     -moz-appearance: textfield;
   }
+
   font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
   font-weight: 400;

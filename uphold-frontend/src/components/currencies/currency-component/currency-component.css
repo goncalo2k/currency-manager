@@ -3,7 +3,7 @@
   --control-h: clamp(56px, 7vw, 72px);
   --font-xl: clamp(24px, 6vw, 42px);
   --dropdown-w: clamp(120px, 26vw, 200px);
-  --ring: 0 0 0 4px rgba(59,130,246,.15);
+  --ring: 0 0 0 4px rgba(59, 130, 246, 0.15);
   --border: #e5e7eb;
   --text: #0f172a;
   --bg: #ffffff;
@@ -11,10 +11,9 @@
 }
 
 .container {
-  width: 100%;
-  max-width: 720px;
+  max-width: 520px;
   padding: 0 16px;
-  margin: 40px auto;
+  margin: auto;
 }
 
 .selector-container {
@@ -27,7 +26,9 @@
   background: var(--bg);
 }
 
-.selector-container * { box-sizing: border-box; }
+.selector-container * {
+  box-sizing: border-box;
+}
 
 .selector-container:focus-within {
   border-color: #93c5fd;
@@ -51,7 +52,9 @@
   outline: none;
 }
 
-.amount-input::placeholder { color: #94a3b8; }
+.amount-input::placeholder {
+  color: #94a3b8;
+}
 
 .currency-dropdown.p-dropdown {
   flex: 0 0 var(--dropdown-w);
@@ -89,7 +92,7 @@
 
 .p-dropdown-panel {
   border-radius: var(--radius);
-  box-shadow: 0 12px 28px rgba(0,0,0,.12);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
   border: 1px solid var(--border);
   overflow: hidden;
 }
@@ -134,7 +137,7 @@
   .p-dropdown-panel {
     background: var(--bg);
     border-color: var(--border);
-    box-shadow: 0 12px 28px rgba(0,0,0,.5);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
   }
   .p-dropdown-items .p-dropdown-item:not(.p-highlight):hover {
     background: #1f2937;

@@ -1,6 +1,4 @@
 import { useEffect, useState } from 'react';
-import upholdLogo from './assets/small-logo.svg';
-import viteLogo from '/vite.svg';
 import './App.css';
 import './index.css';
 import { UpholdConnectorService } from './services/uphold/uphold-connector.service';
@@ -37,14 +35,11 @@ function App() {
 
   return (
     <>
-      <Header user={user} onSignIn={signIn} />
-      <div className="logo-container">
-        <a href="https://uphold.com" target="_blank">
-          <img src={upholdLogo} className="logo uphold" alt="Uphold logo" />
-        </a>
+      <div className="page-container">
+        <Header user={user} onSignIn={signIn} />
+        <h1>Currency Converter</h1>
+        <CurrencyComponent upholdService={upholdService} />
       </div>
-      <h1>Uphold Currency Manager</h1>
-      <CurrencyComponent upholdService={upholdService} />
     </>
   );
 }

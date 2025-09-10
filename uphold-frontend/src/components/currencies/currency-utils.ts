@@ -4,16 +4,16 @@ export interface Currency {
   value?: number;
   ask: number;
   bid: number;
-  currency: string; // e.g. "USD"
+  currency: string;
   pair: string;
 }
 
 export interface DropdownOption {
-  label: string; // what the user sees
-  value: string; // currency code
+  label: string;
+  value: string;
   className?: string;
-  icon?: ReactNode; // will render via itemTemplate
-  iconUrl?: string; // helpful for templates
+  icon?: ReactNode;
+  iconUrl?: string;
   title?: string;
   disabled?: boolean;
 }
@@ -42,15 +42,16 @@ export function mapCurrencyToDropdownOption(
     title: currency.currency,
     label: currency.currency,
     disabled: false,
-    iconUrl, // keep the url for templates
+    iconUrl,
   };
 }
 
 export function populateDropdownOptions(
   flagMap: Map<string, string>,
   currencies: Currency[],
-): DropdownOption[] {
+): { options: DropdownOption[]; currencyMap: Map<string, number> } {
   const seen = new Set<string>();
+  const currencyMap = new Map<string, number>();
   const options: DropdownOption[] = [];
 
   for (const c of currencies) {
@@ -60,8 +61,9 @@ export function populateDropdownOptions(
     if (seen.has(code)) continue;
 
     seen.add(code);
+    currencyMap.set(c.currency, c.bid);
     options.push(mapCurrencyToDropdownOption(flagMap, { ...c, currency: code }));
   }
 
-  return options;
+  return { options, currencyMap };
 }

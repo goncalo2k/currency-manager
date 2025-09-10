@@ -1,35 +1,32 @@
 import { Dropdown } from 'primereact/dropdown';
-import { Currency, exportAvailableFlags, populateDropdownOptions, DropdownOption } from '../currency-utils';
+import { Currency, DropdownOption } from '../currency-utils';
 import { IconComponent } from '../icon/icon-component';
+
+import './currency-dropdown-component.css';
 
 interface CurrencyDropdownProps {
   className: string;
+  options: DropdownOption[];
   currencies: Currency[];
   selectedCurrency: Currency | undefined;
   setSelectedCurrency: React.Dispatch<React.SetStateAction<Currency | undefined>>;
+  flagMap: Map<string, string>;
 }
-
-const flagMap = exportAvailableFlags();
 
 export const CurrencyDropdownComponent: React.FC<CurrencyDropdownProps> = ({
   className,
+  options,
   currencies,
   selectedCurrency,
   setSelectedCurrency,
 }) => {
-
-  const options: DropdownOption[] = populateDropdownOptions(flagMap, currencies);
-
-  // PrimeReact wants the "value" prop to match optionValue ("value" field).
-  const selectedValue = selectedCurrency?.currency ?? null;
-
   const onChange = (code: string) => {
     const found = currencies.find((c) => c.currency === code);
     setSelectedCurrency(found);
   };
 
   const itemTemplate = (opt: DropdownOption) => (
-    <div className="flex items-center gap-2">
+    <div className="dropdown-list-item">
       {opt.iconUrl ? <IconComponent src={opt.iconUrl} /> : null}
       <span>{opt.label}</span>
     </div>
@@ -38,26 +35,24 @@ export const CurrencyDropdownComponent: React.FC<CurrencyDropdownProps> = ({
   const valueTemplate = (opt: DropdownOption | null) => {
     if (!opt) return <span className="opacity-60">Select currency</span>;
     return (
-      <div className="flex items-center gap-2">
+      <div className="dropdown-list-item">
         {opt.iconUrl ? <IconComponent src={opt.iconUrl} /> : null}
         <span>{opt.label}</span>
       </div>
     );
   };
 
+  let placeholder = options.find((opt) => opt.value === 'USD');
+  const selectedValue = selectedCurrency?.currency ?? placeholder?.value;
   return (
     <Dropdown
       className={className}
-      value={selectedValue}                 // string like "USD"
-      onChange={(e) => onChange(e.value)}  // e.value is the string because of optionValue
+      value={selectedValue}
+      onChange={(e) => onChange(e.value)}
       options={options}
-      optionLabel="label"                  // <- correct field
-      optionValue="value"                  // <- match value to a string code
-      placeholder="USD"
       itemTemplate={itemTemplate}
       valueTemplate={valueTemplate}
       filter
     />
   );
 };
-  
