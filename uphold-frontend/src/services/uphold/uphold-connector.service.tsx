@@ -15,7 +15,7 @@ export class UpholdConnectorService {
       baseUrl: this.cfg.getProperty('HOST_URL'),
       clientId: this.cfg.getProperty('CLIENT_ID'),
       clientSecret: this.cfg.getProperty('CLIENT_SECRET'),
-      version: "v0",
+      //version: "v0",
     });
   }
 
@@ -25,12 +25,23 @@ export class UpholdConnectorService {
     url.searchParams.set('scope', 'accounts:read');
     url.searchParams.set('state', state || crypto.randomUUID());
     const finalUrl = url.toString(); */
+
     state = state || crypto.randomUUID();
     try {
-      const resp = await this.httpService.get<APIResponse<string>>(`/api/authorize-url/${state}`);
-      sessionStorage.setItem('state', state);
+      /*       const resp = await this.httpService.get<APIResponse<string>>(`/api/authorize-url/${state}`);
       console.log('[Uphold] authorize URL ->', resp.result);
-      return resp.result!;
+      return resp.result!; */
+      sessionStorage.setItem('state', state);
+      const url = new URL(
+        `/authorize/${encodeURIComponent(this.cfg.getProperty('CLIENT_ID')!)}`,
+        this.cfg.getProperty('API_BASE_URL')!,
+      );
+      url.searchParams.set('response_type', 'code');
+      url.searchParams.set('scope', 'accounts:read');
+      url.searchParams.set('state', state || crypto.randomUUID());
+      const finalUrl = url.toString();
+      console.log('[Uphold] authorize URL ->', finalUrl);
+      return finalUrl;
     } catch (error) {
       console.error('Error: ', error);
       throw error;
@@ -39,10 +50,20 @@ export class UpholdConnectorService {
 
   async completeLogin(code: string): Promise<string> {
     try {
-      const resp=this.sdk.authorize(code);
-      //const resp = await this.httpService.get<APIResponse<string>>(`/api/auth-callback/${code}`);
-      console.log('[Uphold] authorize URL ->', resp.result);
-      return resp.result!;
+      debugger;
+      //const resp= await this.sdk.authorize(code);
+      /* const form = new FormData();
+      form.append('grant_type', 'authorization_code');
+      form.append('client_id', this.cfg.getProperty('CLIENT_ID')!);
+      form.append('client_secret', this.cfg.getProperty('CLIENT_SECRET')!);
+      form.append('code', code);
+    
+
+      const resp = await this.httpService.post('https://api-sandbox.uphold.com/oauth2/token', form); */
+
+      const resp = await this.httpService.get<APIResponse<string>>(`/api/auth-callback/${code}`);
+      console.log('[Uphold] authorize URL ->', resp);
+      return resp as string;
     } catch (error) {
       console.error('Error: ', error);
       throw error;

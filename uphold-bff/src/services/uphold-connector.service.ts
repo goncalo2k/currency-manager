@@ -1,16 +1,19 @@
 // src/services/uphold-connector.service.ts
 import SDK from "@uphold/uphold-sdk-javascript";
 import axios from "axios";
+import { FriendlyClient, NewSdk } from "./uphold";
 
 export class UpholdConnectorService {
   private sdk: any;
   constructor() {
-    this.sdk = new SDK({
+    const currSdk = new NewSdk(/* {
       baseUrl: process.env.UPHOLD_API_BASE_URL,
       clientId: process.env.UPHOLD_CLIENT_ID,
       clientSecret: process.env.UPHOLD_CLIENT_SECRET,
       version: "v0",
-    });
+    } */); //makeUpholdSdk();
+    (currSdk as any).requestClient = new FriendlyClient();
+    this.sdk = currSdk;
   }
 
   getAuthorizeUrl(state?: string): string {
@@ -61,7 +64,7 @@ export class UpholdConnectorService {
       // Let us inspect 4xx bodies (Cloudflare will send HTML)
       validateStatus: (s) => s < 500,
     });
-    console.log('here');
+    console.log("here");
     const resp = await http.get("/v0/countries");
     return resp.data;
   }

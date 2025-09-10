@@ -7,10 +7,18 @@ export default defineConfig({
   plugins: [react()],
   resolve: { alias: { '@': path.resolve(__dirname, 'src') } },
   build: { target: 'es2015' },
+  
   server: {
     https: {
       key: fs.readFileSync('./certs/key.pem'),
       cert: fs.readFileSync('./certs/cert.pem'),
+    },
+    proxy: {
+      "/api": {
+        target: "https://api-sandbox.uphold.com",
+        changeOrigin: true,
+        secure: true,
+      },
     },
     host: 'localhost',
     port: 5173,
