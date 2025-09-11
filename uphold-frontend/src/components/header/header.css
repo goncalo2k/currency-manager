@@ -15,6 +15,9 @@
     &.button-container {
       display: flex;
       justify-content: flex-end;
+      button {
+        border-radius: 32px;
+      }
     }
   }
 }
