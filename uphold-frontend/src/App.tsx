@@ -47,8 +47,8 @@ function App() {
           </span>
           <CurrencyComponent upholdService={upholdService} />
         </div>
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 }
