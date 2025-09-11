@@ -42,7 +42,7 @@ export const CurrencyDropdownComponent: React.FC<CurrencyDropdownProps> = ({
     );
   };
 
-  let placeholder = options.find((opt) => opt.value === 'USD');
+  const placeholder = options.find((opt) => opt.value === 'USD');
   const selectedValue = selectedCurrency?.currency ?? placeholder?.value;
   return (
     <Dropdown

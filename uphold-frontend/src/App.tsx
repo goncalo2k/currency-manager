@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import './App.css';
 import './index.css';
 import { UpholdConnectorService } from './services/uphold/uphold-connector.service';
-import { httpService } from './services/http/http-service';
 import Header from './components/header/header-component';
 import { CurrencyComponent } from './components/currencies/currency-component/currency-component';
 import Footer from './components/footer/footer-component';
@@ -10,13 +9,14 @@ import Footer from './components/footer/footer-component';
 const upholdService = new UpholdConnectorService();
 
 function App() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<unknown>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    let url = new URL(window.location.href);
-    let code = url.searchParams.get('code');
-    let state = url.searchParams.get('state');
+    const url = new URL(window.location.href);
+    const code = url.searchParams.get('code');
+    const state = url.searchParams.get('state');
     console.log('paramState', state);
     console.log('sessionStorageState', sessionStorage.getItem('state'));
     if (code && state === sessionStorage.getItem('state')) {

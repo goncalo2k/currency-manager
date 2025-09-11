@@ -1,4 +1,4 @@
-import { useEffect, useState, ChangeEvent, useRef, useMemo } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { CurrencyDropdownComponent } from '../currency-dropdown/currency-dropdown-component';
 import { UpholdConnectorService } from '@/services/uphold/uphold-connector.service';
 import {
@@ -99,11 +99,6 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
   const flagMap = exportAvailableFlags();
   const { options, currencyMap }: { options: DropdownOption[]; currencyMap: Map<string, number> } =
     populateDropdownOptions(flagMap, currencies);
-
-  const filteredOptions = useMemo(
-    () => options.filter((o) => o.value !== selectedCurrency?.currency),
-    [options, selectedCurrency],
-  );
 
   const hasAmount = value > 0;
 

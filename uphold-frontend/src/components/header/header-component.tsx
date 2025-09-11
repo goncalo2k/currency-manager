@@ -3,7 +3,7 @@ import './header.css';
 import upholdLogo from '../../assets/small-logo.svg';
 
 interface HeaderProps {
-  user: any;
+  user: unknown;
   onSignIn: () => void;
 }
 
