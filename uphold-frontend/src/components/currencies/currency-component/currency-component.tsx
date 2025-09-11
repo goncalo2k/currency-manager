@@ -18,16 +18,37 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
   const [ratesError, setRatesError] = useState(false);
   const [loading, setLoading] = useState(false);
   const [value, setValue] = useState<number>(0);
+  const [amountStr, setAmountStr] = useState<string>('0');
   const [selectedCurrency, setSelectedCurrency] = useState<Currency | undefined>(undefined);
   const [currencies, setCurrencies] = useState<Currency[]>([]);
   const mounted = useRef(true);
   const debounceTimer = useRef<number | null>(null);
 
-  const onValueChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const next = e.target.value === '' ? 0 : Number(e.target.value);
-    setValue(Number.isFinite(next) ? next : 0);
+  function formatTyping(s: string, locale = 'en-US') {
+    const cleaned = s.replace(/[^\d]/g, '');
+    const num = Number(cleaned || '0');
+    const nf = new Intl.NumberFormat(locale);
+    return { display: cleaned ? nf.format(num) : '0', num };
+  }
+
+  function formatFinal(n: number, locale = 'en-US') {
+    const nf = new Intl.NumberFormat(locale);
+    return nf.format(n);
+  }
+
+  const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { display, num } = formatTyping(e.target.value);
+    setAmountStr(display);
+    setValue(num);
   };
 
+  const onInputFocus = () => {
+    if (value === 0) setAmountStr('');
+  };
+
+  const onInputBlur = () => {
+    setAmountStr(value === 0 ? '0' : formatFinal(value));
+  };
   useEffect(() => {
     mounted.current = true;
     (async () => {
@@ -92,11 +113,18 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
         <div className="selector-container">
           <input
             className="amount-input"
-            type="number"
-            value={value}
-            onChange={onValueChange}
+            type="text"
+            inputMode="decimal"
+            pattern="[0-9]*[.,]?[0-9]*"
+            placeholder="0"
+            value={amountStr}
+            onChange={onInputChange}
+            onFocus={onInputFocus}
+            onBlur={onInputBlur}
             onWheel={(e) => e.currentTarget.blur()}
+            autoComplete="off"
           />
+
           <CurrencyDropdownComponent
             className="currency-dropdown"
             options={options}
