@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import './index.css';
-import { UpholdConnectorService } from './services/uphold/uphold-connector.service';
-import Header from './components/header/header-component';
 import { CurrencyComponent } from './components/currencies/currency-component/currency-component';
 import Footer from './components/footer/footer-component';
+import Header from './components/header/header-component';
+import './index.css';
+import { UpholdConnectorService } from './services/uphold/uphold-connector.service';
 
 const upholdService = new UpholdConnectorService();
 
@@ -43,7 +43,7 @@ function App() {
         <div className="content-container">
           <h1>Currency Converter</h1>
           <span className="description">
-            Recieve competitive and transparent pricing with no hidden spreads. See how we compare.
+            Receive competitive and transparent pricing with no hidden spreads. See how we compare.
           </span>
           <CurrencyComponent upholdService={upholdService} />
         </div>

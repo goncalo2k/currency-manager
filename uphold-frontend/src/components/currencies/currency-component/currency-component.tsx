@@ -138,7 +138,7 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
           selectedCurrency={selectedCurrency}
         />
       )}
-      {!hasAmount && <span>Enter an amount to check the rates.</span>}
+      {!hasAmount && <span className="label">Enter an amount to check the rates.</span>}
       {loading && hasAmount && <div className="spinner">Loading…</div>}
       {ratesError && <div className="error">Failed to load currencies.</div>}
     </div>

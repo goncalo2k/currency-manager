@@ -44,7 +44,7 @@ export const CurrencyDropdownComponent: React.FC<CurrencyDropdownProps> = ({
   );
 
   const valueTemplate = (opt: DropdownOption | null) => {
-    if (!opt) return <span className="opacity-60">Select currency</span>;
+    if (!opt) return <span>Select currency</span>;
     return (
       <div className="dropdown-list-item">
         {opt.iconUrl ? <IconComponent src={opt.iconUrl} /> : null}
@@ -65,7 +65,6 @@ export const CurrencyDropdownComponent: React.FC<CurrencyDropdownProps> = ({
       options={options}
       itemTemplate={itemTemplate}
       valueTemplate={valueTemplate}
-      filter
     />
   );
 };
