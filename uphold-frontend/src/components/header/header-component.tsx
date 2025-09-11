@@ -21,7 +21,7 @@ const Header: React.FC<HeaderProps> = ({ user, onSignIn }) => {
         </a>
       </div>
       <div className="card">
-        {!user ? <button onClick={onSignIn}>Sign in with upholdService</button> : <h1>Hi!</h1>}
+        {!user ? <button onClick={onSignIn}>Log In</button> : <h1>Log Out</h1>}
       </div>
     </div>
   );

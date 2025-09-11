@@ -1,13 +1,8 @@
-.page-container {
-  display: flex;
-  flex-direction: column;
-}
-
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.description {
+  align-self: center;
+  max-width: 520px;
+  margin-bottom: 16px;
+  font-weight: lighter;
 }
 
 .logo-uphold {
@@ -29,4 +24,19 @@
     flex-direction: row;
     gap: 16px;
   }
+}
+.page-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1 0 auto;
+  min-height: 100%;
+}
+
+.content-container {
+  flex: 1 1 auto;
+}
+
+.page-container > footer,
+.page-container > .footer {
+  margin-top: auto;
 }

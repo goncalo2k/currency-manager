@@ -5,6 +5,7 @@ import { UpholdConnectorService } from './services/uphold/uphold-connector.servi
 import { httpService } from './services/http/http-service';
 import Header from './components/header/header-component';
 import { CurrencyComponent } from './components/currencies/currency-component/currency-component';
+import Footer from './components/footer/footer-component';
 
 const upholdService = new UpholdConnectorService();
 
@@ -35,10 +36,18 @@ function App() {
 
   return (
     <>
-      <div className="page-container">
+      <header>
         <Header user={user} onSignIn={signIn} />
-        <h1>Currency Converter</h1>
-        <CurrencyComponent upholdService={upholdService} />
+      </header>
+      <div className="page-container">
+        <div className="content-container">
+          <h1>Currency Converter</h1>
+          <span className="description">
+            Recieve competitive and transparent pricing with no hidden spreads. See how we compare.
+          </span>
+          <CurrencyComponent upholdService={upholdService} />
+        </div>
+        <Footer />
       </div>
     </>
   );

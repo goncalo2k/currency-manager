@@ -46,6 +46,7 @@ export const CurrencyDropdownComponent: React.FC<CurrencyDropdownProps> = ({
   const selectedValue = selectedCurrency?.currency ?? placeholder?.value;
   return (
     <Dropdown
+      panelClassName="currency-dropdown-panel"
       className={className}
       value={selectedValue}
       onChange={(e) => onChange(e.value)}

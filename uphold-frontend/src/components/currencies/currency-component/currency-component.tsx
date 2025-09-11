@@ -80,14 +80,15 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
     populateDropdownOptions(flagMap, currencies);
 
   const filteredOptions = useMemo(
-    () => options.filter(o => o.value !== selectedCurrency?.currency),
-    [options, selectedCurrency]
+    () => options.filter((o) => o.value !== selectedCurrency?.currency),
+    [options, selectedCurrency],
   );
 
+  const hasAmount = value > 0;
 
   return (
     <div className="container">
-      {!loading && (
+      {
         <div className="selector-container">
           <input
             className="amount-input"
@@ -105,8 +106,8 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
             flagMap={flagMap}
           />
         </div>
-      )}
-      {!loading && (
+      }
+      {hasAmount && (
         <CurrencyListContainerComponent
           currencyMap={currencyMap}
           flagMap={flagMap}
@@ -114,6 +115,7 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
           selectedCurrency={selectedCurrency}
         />
       )}
+      {!hasAmount && <span>Enter an amount to check the rates.</span>}
       {loading && <div className="spinner">Loading…</div>}
       {ratesError && <div className="error">Failed to load currencies.</div>}
     </div>
