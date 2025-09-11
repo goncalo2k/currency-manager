@@ -3,5 +3,18 @@
   height: 60px;
   display: flex;
   justify-content: space-between;
+  margin: auto;
   align-items: center;
+
+  .logo-container {
+    flex: 0;
+  }
+  .card {
+    flex: 1;
+
+    &.button-container {
+      display: flex;
+      justify-content: flex-end;
+    }
+  }
 }

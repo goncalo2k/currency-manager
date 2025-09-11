@@ -1,6 +1,7 @@
-import { useEffect, useState, useRef } from 'react';
-import { CurrencyDropdownComponent } from '../currency-dropdown/currency-dropdown-component';
 import { UpholdConnectorService } from '@/services/uphold/uphold-connector.service';
+import { useEffect, useRef, useState } from 'react';
+import { CurrencyListContainerComponent } from '../currency-container/currency-container-component';
+import { CurrencyDropdownComponent } from '../currency-dropdown/currency-dropdown-component';
 import {
   Currency,
   DropdownOption,
@@ -8,7 +9,6 @@ import {
   populateDropdownOptions,
 } from '../currency-utils';
 import './currency-component.css';
-import { CurrencyListContainerComponent } from '../currency-container/currency-container-component';
 
 interface CurrencyComponentProps {
   upholdService: UpholdConnectorService;
@@ -139,7 +139,7 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
         />
       )}
       {!hasAmount && <span>Enter an amount to check the rates.</span>}
-      {loading && <div className="spinner">Loading…</div>}
+      {loading && hasAmount && <div className="spinner">Loading…</div>}
       {ratesError && <div className="error">Failed to load currencies.</div>}
     </div>
   );

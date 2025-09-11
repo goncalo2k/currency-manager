@@ -1,6 +1,6 @@
 import React from 'react';
-import './header.css';
 import upholdLogo from '../../assets/small-logo.svg';
+import './header.css';
 
 interface HeaderProps {
   user: unknown;
@@ -20,7 +20,7 @@ const Header: React.FC<HeaderProps> = ({ user, onSignIn }) => {
           <img src={upholdLogo} className="logo-uphold" alt="Uphold logo" />
         </a>
       </div>
-      <div className="card">
+      <div className="card button-container">
         {!user ? <button onClick={onSignIn}>Log In</button> : <h1>Log Out</h1>}
       </div>
     </div>
