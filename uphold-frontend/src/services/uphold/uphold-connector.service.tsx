@@ -40,11 +40,13 @@ export class UpholdConnectorService {
 
   async completeLogin(code: string): Promise<string> {
     try {
-      const resp = await this.httpService.get<APIResponse<{access_token: string}>>(`/api/auth-callback/${code}`);
+      const resp = await this.httpService.get<APIResponse<{ access_token: string }>>(
+        `/api/auth-callback/${code}`,
+      );
       const token = resp.result.access_token as string;
       sessionStorage.setItem('token', token);
       this.sdk.setToken(token);
-      return token
+      return token;
     } catch (error) {
       console.error('Error: ', error);
       throw error;

@@ -28,7 +28,7 @@
   align-items: stretch;
   border-radius: var(--radius);
   overflow: hidden;
-  background: var(--bg);
+  background: var(--bg-muted);
   box-shadow: 0 8px 24px rgba(2, 8, 20, 0.06);
 }
 .container .label {
@@ -64,6 +64,8 @@
 .amount-input::placeholder {
   color: var(--muted);
 }
+
+
 
 .currency-dropdown.p-dropdown {
   height: var(--control-h);

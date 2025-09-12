@@ -21,6 +21,8 @@ export const CurrencyDropdownComponent: React.FC<CurrencyDropdownProps> = ({
   selectedCurrency,
   setSelectedCurrency,
 }) => {
+  const placeholder = options.find((opt) => opt.value === 'USD');
+  const selectedValue = selectedCurrency?.currency ?? placeholder?.value;
   const dropdownRef = useRef<Dropdown>(null);
 
   const onChange = (code: string) => {
@@ -53,8 +55,6 @@ export const CurrencyDropdownComponent: React.FC<CurrencyDropdownProps> = ({
     );
   };
 
-  const placeholder = options.find((opt) => opt.value === 'USD');
-  const selectedValue = selectedCurrency?.currency ?? placeholder?.value;
   return (
     <Dropdown
       ref={dropdownRef}
