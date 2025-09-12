@@ -1,6 +1,6 @@
 import { Dropdown } from 'primereact/dropdown';
-import { Currency, DropdownOption } from '../currency-utils';
 import { IconComponent } from '../icon/icon-component';
+import { Currency, DropdownOption } from '../utils/currency-utils';
 
 import { useEffect, useRef } from 'react';
 import './currency-dropdown-component.css';

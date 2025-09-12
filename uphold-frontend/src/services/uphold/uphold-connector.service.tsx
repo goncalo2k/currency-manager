@@ -1,9 +1,9 @@
 import SDK from '@uphold/uphold-sdk-javascript';
 
+import { Currency } from '@/components/currencies/utils/currency-utils';
+import { ConfigService } from '../config/config-service';
 import { HttpService } from '../http/http-service';
 import { APIResponse } from './uphold.types';
-import { ConfigService } from '../config/config-service';
-import { Currency } from '@/components/currencies/currency-utils';
 
 export class UpholdConnectorService {
   private cfg: ConfigService;

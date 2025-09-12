@@ -7,7 +7,7 @@ import {
   DropdownOption,
   exportAvailableFlags,
   populateDropdownOptions,
-} from '../currency-utils';
+} from '../utils/currency-utils';
 import './currency-component.css';
 
 interface CurrencyComponentProps {

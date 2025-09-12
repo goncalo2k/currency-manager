@@ -1,6 +1,6 @@
 import { CurrencySkeletonComponent } from '../currency-skeleton/currency-skeleton-component';
-import { Currency } from '../currency-utils';
 import { IconComponent } from '../icon/icon-component';
+import { Currency } from '../utils/currency-utils';
 import './currency-container-component.css';
 
 interface CurrencyListContainerComponentProps {
