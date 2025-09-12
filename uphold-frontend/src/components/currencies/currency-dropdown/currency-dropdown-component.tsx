@@ -21,6 +21,10 @@ export const CurrencyDropdownComponent: React.FC<CurrencyDropdownProps> = ({
   selectedCurrency,
   setSelectedCurrency,
 }) => {
+  options =
+    options.length > 0
+      ? options
+      : [{ label: 'USD', value: 'USD', iconUrl: 'src/assets/USD@3x.png' }];
   const placeholder = options.find((opt) => opt.value === 'USD');
   const selectedValue = selectedCurrency?.currency ?? placeholder?.value;
   const dropdownRef = useRef<Dropdown>(null);

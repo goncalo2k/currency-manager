@@ -8,7 +8,6 @@ import {
   exportAvailableFlags,
   populateDropdownOptions,
 } from '../currency-utils';
-import { DropdownSkeletonComponent } from '../dropdown-skeleton/dropdown-skeleton-component';
 import './currency-component.css';
 
 interface CurrencyComponentProps {
@@ -118,7 +117,7 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
     populateDropdownOptions(flagMap, currencies);
 
   const hasAmount = value > 0;
-  debugger;
+
   return (
     <div className="container">
       {
@@ -136,18 +135,15 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
             onWheel={(e) => e.currentTarget.blur()}
             autoComplete="off"
           />
-          {loading ? (
-            <DropdownSkeletonComponent />
-          ) : (
-            <CurrencyDropdownComponent
-              className="currency-dropdown"
-              options={options}
-              currencies={currencies}
-              selectedCurrency={selectedCurrency}
-              setSelectedCurrency={setSelectedCurrency}
-              flagMap={flagMap}
-            />
-          )}
+
+          <CurrencyDropdownComponent
+            className="currency-dropdown"
+            options={options}
+            currencies={currencies}
+            selectedCurrency={selectedCurrency}
+            setSelectedCurrency={setSelectedCurrency}
+            flagMap={flagMap}
+          />
         </div>
       }
       {hasAmount && (
