@@ -1,8 +1,10 @@
-import { Currency } from '../currency-utils';
+import { CurrencySkeletonComponent } from '../currency-skeleton/currency-skeleton-component';
 import { IconComponent } from '../icon/icon-component';
+import { Currency } from '../utils/currency-utils';
 import './currency-container-component.css';
 
 interface CurrencyListContainerComponentProps {
+  loading: boolean;
   currencyMap: Map<string, number>;
   flagMap: Map<string, string>;
   value: number;
@@ -10,16 +12,24 @@ interface CurrencyListContainerComponentProps {
 }
 
 export const CurrencyListContainerComponent: React.FC<CurrencyListContainerComponentProps> = ({
+  loading,
   currencyMap,
   flagMap,
   value,
   selectedCurrency,
 }) => {
+  const filteredEntries = Array.from(currencyMap.entries()).filter(
+    ([code]) => code !== ((selectedCurrency && selectedCurrency.currency) || 'USD'),
+  );
+
   return (
     <div className="entry-list-container">
-      {Array.from(currencyMap.entries())
-        .filter(([code]) => code !== (selectedCurrency && selectedCurrency.currency || 'USD'))
-        .map(([code, rate]) => {
+      {loading &&
+        Array(10)
+          .fill(0)
+          .map((_, idx) => <CurrencySkeletonComponent key={idx} />)}
+      {!loading &&
+        filteredEntries.map(([code, rate]) => {
           const amount = value * rate;
           const flagUrl = flagMap.get(code);
           return (

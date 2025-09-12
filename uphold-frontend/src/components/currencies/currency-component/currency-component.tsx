@@ -1,14 +1,14 @@
-import { useEffect, useState, ChangeEvent, useRef, useMemo } from 'react';
-import { CurrencyDropdownComponent } from '../currency-dropdown/currency-dropdown-component';
 import { UpholdConnectorService } from '@/services/uphold/uphold-connector.service';
+import { useEffect, useRef, useState } from 'react';
+import { CurrencyListContainerComponent } from '../currency-container/currency-container-component';
+import { CurrencyDropdownComponent } from '../currency-dropdown/currency-dropdown-component';
 import {
   Currency,
   DropdownOption,
   exportAvailableFlags,
   populateDropdownOptions,
-} from '../currency-utils';
+} from '../utils/currency-utils';
 import './currency-component.css';
-import { CurrencyListContainerComponent } from '../currency-container/currency-container-component';
 
 interface CurrencyComponentProps {
   upholdService: UpholdConnectorService;
@@ -24,11 +24,27 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
   const mounted = useRef(true);
   const debounceTimer = useRef<number | null>(null);
 
-  function formatTyping(s: string, locale = 'en-US') {
-    const cleaned = s.replace(/[^\d]/g, '');
+  function formatTyping(s: string) {
+    // Allow only digits and one decimal point
+    let cleaned = s.replace(/[^\d.]/g, '');
+    const parts = cleaned.split('.');
+    // Prevent multiple decimals
+    if (parts.length > 2) {
+      cleaned = parts[0] + '.' + parts.slice(1).join('');
+    }
+    // Format integer part with commas, keep decimal part as typed
+    let display = cleaned;
+    if (parts.length === 2) {
+      display = Number(parts[0]).toLocaleString() + '.' + parts[1];
+    } else if (parts.length === 1 && parts[0]) {
+      display = Number(parts[0]).toLocaleString();
+    }
+    // If only a dot, treat as 0.
+    if (cleaned === '.') {
+      display = '0.';
+    }
     const num = Number(cleaned || '0');
-    const nf = new Intl.NumberFormat(locale);
-    return { display: cleaned ? nf.format(num) : '0', num };
+    return { display, num };
   }
 
   function formatFinal(n: number, locale = 'en-US') {
@@ -100,11 +116,6 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
   const { options, currencyMap }: { options: DropdownOption[]; currencyMap: Map<string, number> } =
     populateDropdownOptions(flagMap, currencies);
 
-  const filteredOptions = useMemo(
-    () => options.filter((o) => o.value !== selectedCurrency?.currency),
-    [options, selectedCurrency],
-  );
-
   const hasAmount = value > 0;
 
   return (
@@ -137,14 +148,14 @@ export const CurrencyComponent: React.FC<CurrencyComponentProps> = ({ upholdServ
       }
       {hasAmount && (
         <CurrencyListContainerComponent
+          loading={loading}
           currencyMap={currencyMap}
           flagMap={flagMap}
           value={value}
           selectedCurrency={selectedCurrency}
         />
       )}
-      {!hasAmount && <span>Enter an amount to check the rates.</span>}
-      {loading && <div className="spinner">Loading…</div>}
+      {!hasAmount && <span className="label">Enter an amount to check the rates.</span>}
       {ratesError && <div className="error">Failed to load currencies.</div>}
     </div>
   );

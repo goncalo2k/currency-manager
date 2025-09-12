@@ -1,7 +1,8 @@
 import { Dropdown } from 'primereact/dropdown';
-import { Currency, DropdownOption } from '../currency-utils';
 import { IconComponent } from '../icon/icon-component';
+import { Currency, DropdownOption } from '../utils/currency-utils';
 
+import { useEffect, useRef } from 'react';
 import './currency-dropdown-component.css';
 
 interface CurrencyDropdownProps {
@@ -20,10 +21,26 @@ export const CurrencyDropdownComponent: React.FC<CurrencyDropdownProps> = ({
   selectedCurrency,
   setSelectedCurrency,
 }) => {
+  options =
+    options.length > 0
+      ? options
+      : [{ label: 'USD', value: 'USD', iconUrl: 'src/assets/USD@3x.png' }];
+  const placeholder = options.find((opt) => opt.value === 'USD');
+  const selectedValue = selectedCurrency?.currency ?? placeholder?.value;
+  const dropdownRef = useRef<Dropdown>(null);
+
   const onChange = (code: string) => {
     const found = currencies.find((c) => c.currency === code);
     setSelectedCurrency(found);
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      dropdownRef.current?.hide?.();
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const itemTemplate = (opt: DropdownOption) => (
     <div className="dropdown-list-item">
@@ -33,7 +50,7 @@ export const CurrencyDropdownComponent: React.FC<CurrencyDropdownProps> = ({
   );
 
   const valueTemplate = (opt: DropdownOption | null) => {
-    if (!opt) return <span className="opacity-60">Select currency</span>;
+    if (!opt) return <span>Select currency</span>;
     return (
       <div className="dropdown-list-item">
         {opt.iconUrl ? <IconComponent src={opt.iconUrl} /> : null}
@@ -42,10 +59,9 @@ export const CurrencyDropdownComponent: React.FC<CurrencyDropdownProps> = ({
     );
   };
 
-  let placeholder = options.find((opt) => opt.value === 'USD');
-  const selectedValue = selectedCurrency?.currency ?? placeholder?.value;
   return (
     <Dropdown
+      ref={dropdownRef}
       panelClassName="currency-dropdown-panel"
       className={className}
       value={selectedValue}
@@ -53,7 +69,6 @@ export const CurrencyDropdownComponent: React.FC<CurrencyDropdownProps> = ({
       options={options}
       itemTemplate={itemTemplate}
       valueTemplate={valueTemplate}
-      filter
     />
   );
 };

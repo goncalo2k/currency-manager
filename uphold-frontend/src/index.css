@@ -12,26 +12,27 @@
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
-  color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
+  color: #213547;
+  background-color: #ffffff;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
+
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
   padding: 2rem;
   text-align: center;
-  min-height: 100dvh;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
-
-html, body, #root { height: 100%; }
-
+html,
+body {
+  height: 100%;
+}
 
 a {
   font-weight: 500;
@@ -39,7 +40,7 @@ a {
   text-decoration: inherit;
 }
 a:hover {
-  color: #535bf2;
+  color: #747bff;
 }
 
 body {
@@ -48,6 +49,8 @@ body {
   flex-direction: column;
   min-width: 320px;
   min-height: 100vh;
+  background-color: #ffffff;
+  color: #213547;
 }
 
 h1 {
@@ -62,27 +65,39 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #84FB7F;
+  background-color: #84fb7f;
   cursor: pointer;
   transition: border-color 0.25s;
 }
+
 button:hover {
   border-color: #646cff;
 }
+
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+@media (max-width: 1024px) {
+  html,
+  body {
+    height: auto;
+    min-height: 100dvh;
+    overflow-y: auto;
   }
-  a:hover {
-    color: #747bff;
+
+  #root,
+  .page-container {
+    height: auto;
+    min-height: 100dvh;
   }
-  button {
-    background-color:#84FB7F;
+
+  /* If any inner wrappers cap height/lock scroll, relax them on small screens */
+  .content-container,
+  [data-lock-scroll],
+  .scroll-locked {
+    overflow: visible;
+    max-height: none;
   }
 }

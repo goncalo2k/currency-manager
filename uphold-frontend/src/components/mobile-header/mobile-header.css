@@ -1,0 +1,154 @@
+.mobile-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: fadeIn 0.2s;
+}
+.mobile-modal {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.18);
+  padding: 2rem 1.5rem 1.5rem 1.5rem;
+  min-width: 240px;
+  max-width: 90vw;
+  width: 320px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  position: relative;
+  animation: modalDrop 0.25s;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes modalDrop {
+  from {
+    opacity: 0;
+    transform: translateY(-40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.mobile-header {
+  display: none;
+}
+
+@media (max-width: 703px) {
+  .mobile-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1rem;
+    background: #24232311;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border-radius: 32px;
+    position: relative;
+    z-index: 100;
+    flex-direction: row;
+    gap: 0.5rem;
+    overflow-x: hidden;
+  }
+  .logo-container-mobile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 0.5rem 0;
+    flex: 1;
+  }
+  .hamburger {
+    width: 100%;
+    max-width: 32px;
+    height: 32px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    cursor: pointer;
+    gap: 6px;
+  }
+  .hamburger span {
+    display: block;
+    height: 4px;
+    width: 100%;
+    background: #000;
+    border-radius: 2px;
+    transition: 0.3s;
+  }
+  .close-modal {
+    position: absolute;
+    top: 8px;
+    right: 16px;
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: #333;
+    cursor: pointer;
+    z-index: 10;
+  }
+  .mobile-modal ul {
+    list-style: none !important;
+    margin: 0;
+    padding: 0;
+  }
+  .mobile-modal li {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid #f2f2f2;
+    transition: background 0.2s;
+    border-radius: 8px;
+    margin: 0.25rem 0;
+  }
+  .mobile-modal li:last-child {
+    border-bottom: none;
+  }
+  .mobile-modal a {
+    color: #222;
+    text-decoration: none;
+    font-size: 1.1rem;
+    font-weight: 500;
+    display: block;
+    width: 100%;
+    transition: color 0.2s;
+    border-radius: 8px;
+    padding: 0.25rem 0;
+  }
+  .mobile-modal li:hover {
+    background: #f7f7f7;
+  }
+  .mobile-modal a:active {
+    color: #007bff;
+  }
+  @keyframes dropdownFade {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}

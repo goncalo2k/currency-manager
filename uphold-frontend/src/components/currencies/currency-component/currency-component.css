@@ -1,19 +1,25 @@
 :root {
-  --radius: 12px;
+  --radius: 14px;
   --control-h: clamp(56px, 7vw, 72px);
-  --font-xl: clamp(24px, 6vw, 42px);
-  --dropdown-w: clamp(120px, 26vw, 200px);
+  --font-xl: 28px;
+  --dropdown-w: clamp(132px, 26vw, 200px);
   --ring: 0 0 0 4px rgba(59, 130, 246, 0.15);
   --border: #e5e7eb;
   --text: #0f172a;
+  --muted: #94a3b8;
   --bg: #ffffff;
-  --bg-muted: #f9fafb;
+  --bg-muted: #f3f7fc;
+  --panel-bg: #ffffff;
 }
 
 .container {
-  max-width: 520px;
+  max-width: 380px;
   padding: 0 16px;
-  margin: auto;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 .selector-container {
@@ -22,8 +28,11 @@
   align-items: stretch;
   border-radius: var(--radius);
   overflow: hidden;
-  border: 1px solid var(--border);
-  background: var(--bg);
+  background: var(--bg-muted);
+  box-shadow: 0 8px 24px rgba(2, 8, 20, 0.06);
+}
+.container .label {
+  margin-top: 16px;
 }
 
 .selector-container * {
@@ -32,12 +41,9 @@
 
 .selector-container:focus-within {
   border-color: #93c5fd;
-  box-shadow: var(--ring);
-}
-
-.selector-container:has(.p-dropdown.p-focus) {
-  border-color: #93c5fd;
-  box-shadow: var(--ring);
+  box-shadow:
+    var(--ring),
+    0 8px 24px rgba(2, 8, 20, 0.06);
 }
 
 .amount-input {
@@ -45,7 +51,10 @@
   min-width: 0;
   height: var(--control-h);
   border: none;
-  padding: 0 16px;
+  padding: 0 18px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   font-size: var(--font-xl);
   background: var(--bg-muted);
   color: var(--text);
@@ -53,29 +62,29 @@
 }
 
 .amount-input::placeholder {
-  color: #94a3b8;
+  color: var(--muted);
 }
 
 .currency-dropdown.p-dropdown {
-  flex: 0 0 var(--dropdown-w);
-  min-width: 0;
   height: var(--control-h);
   border: none;
-  border-left: 1px solid var(--border);
   background: var(--bg);
   display: flex;
   align-items: center;
 }
 
-.currency-dropdown .p-dropdown-label,
 .currency-dropdown .p-inputtext,
+.currency-dropdown .p-dropdown-label,
 .currency-dropdown .p-dropdown-trigger {
   height: 100%;
+  border: none;
+  outline: none;
 }
 
 .currency-dropdown .p-dropdown-label {
   display: flex;
   align-items: center;
+  gap: 8px;
   padding: 0 12px;
   line-height: normal;
   font-weight: 600;
@@ -92,54 +101,44 @@
 
 .p-dropdown-panel {
   border-radius: var(--radius);
-  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.12);
-  border: 1px solid var(--border);
+  box-shadow: 0 16px 40px rgba(2, 8, 20, 0.12);
   overflow: hidden;
+  background: var(--panel-bg);
+  min-width: var(--dropdown-w);
+  max-width: var(--dropdown-w);
 }
 
 .p-dropdown-items .p-dropdown-item {
   padding: 10px 12px;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .p-dropdown-items .p-dropdown-item:not(.p-highlight):hover {
   background: #f3f4f6;
 }
 
+.dropdown-list-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 @media (max-width: 520px) {
   .selector-container {
-    flex-direction: column;
     border-radius: var(--radius);
     overflow: visible;
   }
   .amount-input {
     border-bottom: 1px solid var(--border);
-    border-right: none;
+    width: 100%;
     border-radius: var(--radius) var(--radius) 0 0;
-    width: 100%;
-  }
-  .currency-dropdown.p-dropdown {
-    flex: 0 0 auto;
-    width: 100%;
-    border-top: none;
-    border-left: 1px solid var(--border);
-    border-radius: 0 0 var(--radius) var(--radius);
   }
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --border: #374151;
-    --text: #e5e7eb;
-    --bg: #111827;
-    --bg-muted: #0b1220;
-  }
-  .p-dropdown-panel {
-    background: var(--bg);
-    border-color: var(--border);
-    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.5);
-  }
-  .p-dropdown-items .p-dropdown-item:not(.p-highlight):hover {
-    background: #1f2937;
-  }
+.spinner {
+  margin-top: 16px;
+}
+.error {
+  margin-top: 12px;
+  color: #b91c1c;
 }

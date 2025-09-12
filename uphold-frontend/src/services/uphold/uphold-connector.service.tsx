@@ -1,9 +1,9 @@
 import SDK from '@uphold/uphold-sdk-javascript';
 
+import { Currency } from '@/components/currencies/utils/currency-utils';
+import { ConfigService } from '../config/config-service';
 import { HttpService } from '../http/http-service';
 import { APIResponse } from './uphold.types';
-import { ConfigService } from '../config/config-service';
-import { Currency } from '@/components/currencies/currency-utils';
 
 export class UpholdConnectorService {
   private cfg: ConfigService;
@@ -31,7 +31,6 @@ export class UpholdConnectorService {
       url.searchParams.set('scope', 'accounts:read');
       url.searchParams.set('state', state || crypto.randomUUID());
       const finalUrl = url.toString();
-      console.log('[Uphold] authorize URL ->', finalUrl);
       return finalUrl;
     } catch (error) {
       console.error('Error: ', error);
@@ -41,12 +40,13 @@ export class UpholdConnectorService {
 
   async completeLogin(code: string): Promise<string> {
     try {
-      const resp = await this.httpService.get<APIResponse<any>>(`/api/auth-callback/${code}`);
-      console.log('[Uphold] authorize URL ->', resp);
+      const resp = await this.httpService.get<APIResponse<{ access_token: string }>>(
+        `/api/auth-callback/${code}`,
+      );
       const token = resp.result.access_token as string;
       sessionStorage.setItem('token', token);
       this.sdk.setToken(token);
-      return token
+      return token;
     } catch (error) {
       console.error('Error: ', error);
       throw error;

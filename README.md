@@ -75,3 +75,7 @@ VITE_BFF_URL=http://localhost:7000
 npm i
 npm run dev
 ````
+
+### Sidenotes
+
+The frontend has a self-signed certificate in order to run with https (so, if you're running it locally, you must access https://localhost/<YOUR_PORT>), in order to test the authentication flow.

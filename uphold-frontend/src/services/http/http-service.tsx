@@ -1,4 +1,4 @@
-import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
 
 export class HttpService {
   private client: AxiosInstance;
@@ -8,29 +8,29 @@ export class HttpService {
       baseURL,
       timeout: 10000,
       headers: {
-        "Content-Type": "application/json"
-      }
+        'Content-Type': 'application/json',
+      },
     });
 
     this.client.interceptors.request.use(
       (config) => {
-        const token = localStorage.getItem("auth_token");
+        const token = localStorage.getItem('auth_token');
         if (token) {
           config.headers.Authorization = `Bearer ${token}`;
         }
         return config;
       },
-      (error) => Promise.reject(error)
+      (error) => Promise.reject(error),
     );
 
     this.client.interceptors.response.use(
       (response: AxiosResponse) => response,
       (error) => {
         if (error.response?.status === 401) {
-          console.warn("Unauthorized — maybe redirect to login");
+          console.warn('Unauthorized — maybe redirect to login');
         }
         return Promise.reject(error);
-      }
+      },
     );
   }
 
@@ -51,6 +51,4 @@ export class HttpService {
   }
 }
 
-export const httpService = new HttpService(
-  import.meta.env.VITE_API_URL || "http://localhost:7000"
-);
+export const httpService = new HttpService(import.meta.env.VITE_API_URL || 'http://localhost:7000');

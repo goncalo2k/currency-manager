@@ -1,24 +1,23 @@
 import { useEffect, useState } from 'react';
 import './App.css';
-import './index.css';
-import { UpholdConnectorService } from './services/uphold/uphold-connector.service';
-import { httpService } from './services/http/http-service';
-import Header from './components/header/header-component';
 import { CurrencyComponent } from './components/currencies/currency-component/currency-component';
 import Footer from './components/footer/footer-component';
+import Header from './components/header/header-component';
+import MobileHeader from './components/mobile-header/mobile-header';
+import './index.css';
+import { UpholdConnectorService } from './services/uphold/uphold-connector.service';
 
 const upholdService = new UpholdConnectorService();
 
 function App() {
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<unknown>(null);
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    let url = new URL(window.location.href);
-    let code = url.searchParams.get('code');
-    let state = url.searchParams.get('state');
-    console.log('paramState', state);
-    console.log('sessionStorageState', sessionStorage.getItem('state'));
+    const url = new URL(window.location.href);
+    const code = url.searchParams.get('code');
+    const state = url.searchParams.get('state');
     if (code && state === sessionStorage.getItem('state')) {
       setLoading(true);
       upholdService.completeLogin(code).then(setUser);
@@ -38,17 +37,18 @@ function App() {
     <>
       <header>
         <Header user={user} onSignIn={signIn} />
+        <MobileHeader />
       </header>
       <div className="page-container">
         <div className="content-container">
-          <h1>Currency Converter</h1>
+          <h1 className="title">Currency Converter</h1>
           <span className="description">
-            Recieve competitive and transparent pricing with no hidden spreads. See how we compare.
+            Receive competitive and transparent pricing with no hidden spreads. See how we compare.
           </span>
           <CurrencyComponent upholdService={upholdService} />
         </div>
-        <Footer />
       </div>
+      <Footer />
     </>
   );
 }
