@@ -41,7 +41,7 @@ function App() {
       </header>
       <div className="page-container">
         <div className="content-container">
-          <h1>Currency Converter</h1>
+          <h1 className='title'>Currency Converter</h1>
           <span className="description">
             Receive competitive and transparent pricing with no hidden spreads. See how we compare.
           </span>

@@ -14,15 +14,20 @@
   .content-container {
     display: flex;
     flex-direction: column;
+    gap: 16px;
     .description {
       align-self: center;
-      max-width: 520px !important;
-      margin-bottom: 16px;
+      max-width: 330px !important;
       font-weight: lighter;
     }
   }
 }
 
+.title {
+  font-size: 48px;
+  margin: 0;
+  margin-top: 32px;
+}
 .page-container > footer,
 .page-container > .footer {
   margin-top: auto;

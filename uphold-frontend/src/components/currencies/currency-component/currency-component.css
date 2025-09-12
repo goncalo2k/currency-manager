@@ -1,7 +1,7 @@
 :root {
   --radius: 14px;
   --control-h: clamp(56px, 7vw, 72px);
-  --font-xl: clamp(28px, 6vw, 40px);
+  --font-xl: 28px;
   --dropdown-w: clamp(132px, 26vw, 200px);
   --ring: 0 0 0 4px rgba(59, 130, 246, 0.15);
   --border: #e5e7eb;
@@ -13,12 +13,13 @@
 }
 
 .container {
-  max-width: 520px;
+  max-width: 380px;
   padding: 0 16px;
   margin: 0 auto;
   text-align: center;
   display: flex;
   flex-direction: column;
+  gap: 8px;
 }
 
 .selector-container {
@@ -51,6 +52,9 @@
   height: var(--control-h);
   border: none;
   padding: 0 18px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  white-space: nowrap;
   font-size: var(--font-xl);
   background: var(--bg-muted);
   color: var(--text);
@@ -62,8 +66,6 @@
 }
 
 .currency-dropdown.p-dropdown {
-  flex: 0 0 var(--dropdown-w);
-  min-width: 0;
   height: var(--control-h);
   border: none;
   background: var(--bg);

@@ -1,8 +1,11 @@
 .entry-list-container {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
   padding: 16px 24px;
+  max-height: calc(35vh - 32px - 48px);
+  overflow-y: auto;
+  scrollbar-width: thin;
 }
 
 .entry-item-container {
@@ -10,4 +13,6 @@
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+  font-size: 1rem;
+  font-weight: 600;
 }
