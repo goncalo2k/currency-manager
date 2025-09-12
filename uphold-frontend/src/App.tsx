@@ -3,6 +3,7 @@ import './App.css';
 import { CurrencyComponent } from './components/currencies/currency-component/currency-component';
 import Footer from './components/footer/footer-component';
 import Header from './components/header/header-component';
+import MobileHeader from './components/mobile-header/mobile-header';
 import './index.css';
 import { UpholdConnectorService } from './services/uphold/uphold-connector.service';
 
@@ -36,6 +37,7 @@ function App() {
     <>
       <header>
         <Header user={user} onSignIn={signIn} />
+        <MobileHeader />
       </header>
       <div className="page-container">
         <div className="content-container">
