@@ -16,3 +16,8 @@
   font-size: 1rem;
   font-weight: 600;
 }
+@media (max-width: 1024px) {
+  .entry-list-container {
+    max-height: calc(75vh - 32px - 48px);
+  }
+}

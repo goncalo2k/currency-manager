@@ -27,17 +27,7 @@ export const CurrencyListContainerComponent: React.FC<CurrencyListContainerCompo
       {loading &&
         Array(10)
           .fill(0)
-          .map((_, idx) => (
-            <div key={idx} className="entry-item-container">
-              <span>
-                <CurrencySkeletonComponent className="entry-item-container" key={idx} />
-              </span>
-              <div className="dropdown-list-item">
-                <CurrencySkeletonComponent className="entry-item-container" key={idx} />
-                <CurrencySkeletonComponent className="entry-item-container" key={idx} />
-              </div>
-            </div>
-          ))}
+          .map((_, idx) => <CurrencySkeletonComponent key={idx} />)}
       {!loading &&
         filteredEntries.map(([code, rate]) => {
           const amount = value * rate;

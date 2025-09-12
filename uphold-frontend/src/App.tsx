@@ -17,8 +17,6 @@ function App() {
     const url = new URL(window.location.href);
     const code = url.searchParams.get('code');
     const state = url.searchParams.get('state');
-    console.log('paramState', state);
-    console.log('sessionStorageState', sessionStorage.getItem('state'));
     if (code && state === sessionStorage.getItem('state')) {
       setLoading(true);
       upholdService.completeLogin(code).then(setUser);
@@ -41,7 +39,7 @@ function App() {
       </header>
       <div className="page-container">
         <div className="content-container">
-          <h1 className='title'>Currency Converter</h1>
+          <h1 className="title">Currency Converter</h1>
           <span className="description">
             Receive competitive and transparent pricing with no hidden spreads. See how we compare.
           </span>

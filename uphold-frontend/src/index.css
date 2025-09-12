@@ -78,3 +78,26 @@ button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
+
+@media (max-width: 1024px) {
+  html,
+  body {
+    height: auto;
+    min-height: 100dvh;
+    overflow-y: auto;
+  }
+
+  #root,
+  .page-container {
+    height: auto;
+    min-height: 100dvh;
+  }
+
+  /* If any inner wrappers cap height/lock scroll, relax them on small screens */
+  .content-container,
+  [data-lock-scroll],
+  .scroll-locked {
+    overflow: visible;
+    max-height: none;
+  }
+}
